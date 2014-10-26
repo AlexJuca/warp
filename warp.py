@@ -250,11 +250,7 @@ def start_warp_server(host, port):
     logger.info('Server bound at [%s:%d].' % (host, port))
 
 
-def main():
-    """CLI frontend function.  It takes command line options e.g. host,
-    port and provides `--help` message.
-
-    """
+def setargs():
     parser = ArgumentParser(description='Simple HTTP transparent proxy')
     parser.add_argument('-H', '--host', default='127.0.0.1',
                       help='Host to listen [default: %(default)s]')
@@ -263,6 +259,14 @@ def main():
     parser.add_argument('-v', '--verbose', action='count', default=0,
                       help='Print verbose')
     args = parser.parse_args()
+    return args
+
+def main():
+    """CLI frontend function.  It takes command line options e.g. host,
+    port and provides `--help` message.
+
+    """
+    args = setargs()
     if not (1 <= args.port <= 65535):
         parser.error('port must be 1-65535')
     if args.verbose >= 3:
